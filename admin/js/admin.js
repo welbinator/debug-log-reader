@@ -1,58 +1,105 @@
 jQuery(document).ready(function($) {
-    $("#elr-toggle-debug-log").on("click", function() {
+       $("#elr-toggle-debug-log").on("click", function() {
         $("#elr-debug-log-content").toggle();
         $(this).text(function(i, text) {
             return text === "Display debug.log contents" ? "Hide debug.log contents" : "Display debug.log contents";
         });
     });
-     // Clear the debug.log file
-     $("#elr-clear-debug-log").on("click", function() {
+
+    // Clear the debug.log file
+    $("#elr-clear-debug-log").on("click", function() {
+        // Clear debug.log file code
+    });
+
+    $("#elr-tell-me-whats-wrong").on("click", function() {
+        const debugContent = $("#elr-debug-log-content").text();
+        const promptIssue = "Please tell me what is wrong with my WordPress website. Please include which plugin or theme is causing the problem and which file and on which line the error is on. Here is my debug.log file: " + debugContent;
+        const promptTroubleshooting = "Also please share some basic WordPress troubleshooting steps, based on my issue.";
+    
+        // Show the h2 heading immediately after the button is clicked
+        $(".chatgpt-output-heading").show();
+
+
+        function sendChatGPTRequest(prompt, outputSelector, headingSelector) {
+            return $.ajax({
+                url: ajaxurl,
+                type: "POST",
+                data: {
+                    action: "elr_send_to_chatgpt",
+                    nonce: elr_vars.chatgpt_nonce,
+                    prompt: prompt
+                },
+                beforeSend: function() {
+                    
+                    $(outputSelector).text("Please wait...").show();
+                    if (outputSelector === "#elr-chatgpt-output-issue") {
+                        $("#elr-chatgpt-output-wrapper").show();
+                    }
+                },
+                success: function(response) {
+                    $(outputSelector).html(response.data);
+                    $(headingSelector).show(); // Show the heading
+        
+                    // Show the textarea and submit button after the second output is displayed
+                    if (outputSelector === "#elr-chatgpt-output-troubleshooting") {
+                        $("#elr-code-input").show();
+                        $("label[for='elr-code-input']").show();
+                        $("#elr-submit-code").show();
+                    }
+                },
+                error: function() {
+                    $(outputSelector).text("Error: Unable to get a response from ChatGPT.");
+                }
+            });
+        }
+        
+
+            sendChatGPTRequest(promptIssue, "#elr-chatgpt-output-issue", ".sub-heading")
+            .then(function() {
+                $("#elr-chatgpt-output-troubleshooting").text("Generating troubleshooting steps, please wait...").show();
+                return sendChatGPTRequest(promptTroubleshooting, "#elr-chatgpt-output-troubleshooting", ".sub-heading")
+                .then(function() {
+                    $("#elr-code-input").show();
+                    $("label[for='elr-code-input']").show();
+                    $("#elr-submit-code").show();
+                });
+            });
+        
+    });
+
+    // Add a function to handle the follow-up request
+    function sendFollowUpRequest() {
+        const followUpPrompt = $("#elr-code-input").val();
+        if (!followUpPrompt) {
+            return;
+        }
+
+        const prompt = "Here is the code from the offending file: " + followUpPrompt + ". Can you give me more information about my website's issue?";
+
         $.ajax({
             url: ajaxurl,
             type: "POST",
             data: {
-                action: "elr_clear_debug_log",
-                nonce: elr_vars.nonce
+                action: "elr_send_to_chatgpt",
+                nonce: elr_vars.chatgpt_nonce,
+                prompt: prompt
             },
-            success: function() {
-                $("#elr-debug-log-content").text("");
-                $("#elr-notice").html('<span style="color:green;">Debug log file has been cleared.</span>').fadeIn().delay(3000).fadeOut();
+            beforeSend: function() {
+                $("#elr-chatgpt-output-followup").text("Analyzing the code, please wait...").show();
+            },
+            success: function(response) {
+                $("#elr-chatgpt-output-followup").text(response.data);
             },
             error: function() {
-                $("#elr-notice").html('<span style="color:red;">Error: Unable to clear the debug.log file.</span>').fadeIn().delay(3000).fadeOut();
+                $("#elr-chatgpt-output-followup").text("Error: Unable to get a response from ChatGPT.");
             }
         });
-    });
+    }
 
- // Send debug.log contents to ChatGPT and display the output
- $("#elr-tell-me-whats-wrong").on("click", function() {
-    const debugContent = $("#elr-debug-log-content").text();
-    const prompt = "Please tell me what is wrong with my WordPress website. Here is my debug.log file: " + debugContent;
+    $("#elr-submit-code").on("click", sendFollowUpRequest);
 
-    $.ajax({
-        url: ajaxurl,
-        type: "POST",
-        data: {
-            action: "elr_send_to_chatgpt",
-            nonce: elr_vars.chatgpt_nonce,
-            prompt: prompt
-        },
-        beforeSend: function() {
-            $("#elr-chatgpt-output").text("Analyzing your debug.log, please wait...").show();
-        },
-        success: function(response) {
-            $("#elr-chatgpt-output").text(response.data);
-        },
-        error: function() {
-            $("#elr-chatgpt-output").text("Error: Unable to get a response from ChatGPT.");
-        }
+    // Show the "Tell me what's wrong with my site" button when debug.log content is displayed
+    $("#elr-toggle-debug-log").on("click", function() {
+        $("#elr-tell-me-whats-wrong").toggle();
     });
 });
-
-// Show the "Tell me what's wrong with my site" button when debug.log content is displayed
-$("#elr-toggle-debug-log").on("click", function() {
-    $("#elr-tell-me-whats-wrong").toggle();
-});
-});
-
-

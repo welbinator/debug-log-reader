@@ -44,10 +44,18 @@ function elr_display_debug_log() {
     // Add a container for the debug.log content
     echo '<pre id="elr-debug-log-content" style="display:none;">' . esc_html(elr_read_debug_log()) . '</pre>';
 
-    // Add the "Tell me what's wrong with my site" button and a container for the ChatGPT output
+     // Add the "Tell me what's wrong with my site" button and a container for the ChatGPT output
     echo '<button id="elr-tell-me-whats-wrong" class="button" style="display:none; margin-top: 10px;">Tell me what\'s wrong with my site</button>';
-    echo '<pre id="elr-chatgpt-output" style="display:none; margin-top: 10px;"></pre>';
-
+    echo '<div id="elr-chatgpt-output-wrapper">';
+    echo '<h2 class="chatgpt-output-heading" style="display:none;">Here\'s what\'s wrong with your website</h2>';
+    echo '<h3 class="sub-heading" style="display:none;">The Problem:</h3>';
+    echo '<p id="elr-chatgpt-output-issue" style="display:none;"></p>';
+    echo '<h3 class="sub-heading" style="display:none;">What are some basic WordPress troubleshooting steps?</h3>';
+    echo '<p id="elr-chatgpt-output-troubleshooting" style="display:none;"></p>';
+    echo '<label for="elr-code-input" style="display:none; margin-top: 10px;">If you\'d like, you can paste in the code of the offending file and I can attempt to assist you further:</label>';
+    echo '<textarea id="elr-code-input" style="display:none; width: 100%; height: 150px; margin-top: 5px;"></textarea>';
+    echo '<button id="elr-submit-code" class="button" style="display:none; margin-top: 10px;">Submit</button>';
+    echo '<p id="elr-chatgpt-output-followup" style="display:none; margin-top: 10px;"></p>';
     echo '</div>';
 }
 
@@ -74,6 +82,13 @@ add_action('wp_ajax_elr_clear_debug_log', 'elr_ajax_clear_debug_log');
 
 function elr_enqueue_scripts($hook) {
     if ('toplevel_page_debug-log-reader' === $hook) {
+         // Enqueue the admin.css file
+         wp_enqueue_style(
+            'elr-admin-css',
+            plugin_dir_url(__FILE__) . 'admin/css/admin.css',
+            array(),
+            '1.0.0'
+        );
         wp_enqueue_script(
             'elr-admin-js',
             plugin_dir_url(__FILE__) . 'admin/js/admin.js',
