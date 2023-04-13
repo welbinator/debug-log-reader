@@ -8,8 +8,32 @@ jQuery(document).ready(function($) {
 
     // Clear the debug.log file
     $("#elr-clear-debug-log").on("click", function() {
-        // Clear debug.log file code
+        $.ajax({
+            url: ajaxurl,
+            type: "POST",
+            data: {
+                action: "elr_clear_debug_log",
+                nonce: elr_vars.nonce
+            },
+            beforeSend: function() {
+                $("#elr-clear-debug-log").text("Clearing debug.log file...").prop("disabled", true);
+            },
+            success: function(response) {
+                if (response.success) {
+                    $("#elr-debug-log-content").text('');
+                    $("#elr-clear-debug-log").text("Clear debug.log file").prop("disabled", false);
+                } else {
+                    alert("Error: Unable to clear the debug.log file.");
+                    $("#elr-clear-debug-log").text("Clear debug.log file").prop("disabled", false);
+                }
+            },
+            error: function() {
+                alert("Error: Unable to clear the debug.log file.");
+                $("#elr-clear-debug-log").text("Clear debug.log file").prop("disabled", false);
+            }
+        });
     });
+    
 
     $("#elr-tell-me-whats-wrong").on("click", function() {
         const debugContent = $("#elr-debug-log-content").text();
