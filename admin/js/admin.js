@@ -38,7 +38,7 @@ jQuery(document).ready(function($) {
     $("#elr-tell-me-whats-wrong").on("click", function() {
         const debugContent = $("#elr-debug-log-content").text();
         const promptIssue = "Please tell me what is wrong with my WordPress website. Please include which plugin or theme is causing the problem and which file and on which line the error is on. Here is my debug.log file: " + debugContent;
-        const promptTroubleshooting = "Also please share some basic WordPress troubleshooting steps, based on my issue.";
+        // const promptTroubleshooting = "Also please share some basic WordPress troubleshooting steps, based on my issue.";
     
         // Show the h2 heading immediately after the button is clicked
         $(".chatgpt-output-heading").show();
@@ -80,15 +80,10 @@ jQuery(document).ready(function($) {
 
             sendChatGPTRequest(promptIssue, "#elr-chatgpt-output-issue", ".sub-heading")
             .then(function() {
-                $("#elr-chatgpt-output-troubleshooting").text("Generating troubleshooting steps, please wait...").show();
-                return sendChatGPTRequest(promptTroubleshooting, "#elr-chatgpt-output-troubleshooting", ".sub-heading")
-                .then(function() {
                     $("#elr-code-input").show();
                     $("label[for='elr-code-input']").show();
                     $("#elr-submit-code").show();
-                });
             });
-        
     });
 
     // Add a function to handle the follow-up request
@@ -98,7 +93,7 @@ jQuery(document).ready(function($) {
             return;
         }
 
-        const prompt = "Here is the code from the offending file: " + followUpPrompt + ". Can you give me more information about my website's issue?";
+        const prompt =  followUpPrompt;
 
         $.ajax({
             url: ajaxurl,
@@ -109,7 +104,7 @@ jQuery(document).ready(function($) {
                 prompt: prompt
             },
             beforeSend: function() {
-                $("#elr-chatgpt-output-followup").text("Analyzing the code, please wait...").show();
+                $("#elr-chatgpt-output-followup").text("Response incoming...").show();
             },
             success: function(response) {
                 $("#elr-chatgpt-output-followup").text(response.data);

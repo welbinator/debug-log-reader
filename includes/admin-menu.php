@@ -41,11 +41,9 @@ function elr_display_debug_log() {
     echo '<button id="elr-tell-me-whats-wrong" class="button" style="display:none; margin-top: 10px;">Tell me what\'s wrong with my site</button>';
     echo '<div id="elr-chatgpt-output-wrapper">';
     echo '<h2 class="chatgpt-output-heading" style="display:none;">Here\'s what\'s wrong with your website</h2>';
-    echo '<h3 class="sub-heading" style="display:none;">The Problem:</h3>';
     echo '<p id="elr-chatgpt-output-issue" style="display:none;"></p>';
-    echo '<h3 class="sub-heading" style="display:none;">What are some basic WordPress troubleshooting steps?</h3>';
     echo '<p id="elr-chatgpt-output-troubleshooting" style="display:none;"></p>';
-    echo '<label for="elr-code-input" style="display:none; margin-top: 10px;">If you\'d like, you can paste in the code of the offending file and I can attempt to assist you further:</label>';
+    echo '<label for="elr-code-input" style="display:none; margin-top: 10px;">Do you have any followup questions regarding this issue? You\'re welcome to paste in the offending code and perhaps I can troubleshoot it further. Or perhaps you have a question from the plugin or theme developer you would like to ask:</label>';
     echo '<textarea id="elr-code-input" style="display:none; width: 100%; height: 150px; margin-top: 5px;"></textarea>';
     echo '<button id="elr-submit-code" class="button" style="display:none; margin-top: 10px;">Submit</button>';
     echo '<p id="elr-chatgpt-output-followup" style="display:none; margin-top: 10px;"></p>';
