@@ -1,5 +1,5 @@
 <?php
-
+namespace DebugLogReader;
 
 function elr_read_debug_log() {
     $debug_log_path = ABSPATH . 'wp-content/debug.log'; // Set the path to your debug.log file
@@ -23,7 +23,7 @@ function elr_admin_menu() {
         100 // Position of the menu item, 100 is placed towards the bottom
     );
 }
-add_action('admin_menu', 'elr_admin_menu');
+add_action('admin_menu', 'DebugLogReader\elr_admin_menu');
 
 // Display the debug log content on the admin menu page
 function elr_display_debug_log() {
