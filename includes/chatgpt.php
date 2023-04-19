@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 function elr_register_chatgpt_settings() {
     register_setting('elr_chatgpt_options_group', 'elr_chatgpt_api_key');
 }
-add_action('admin_init', 'elr_register_chatgpt_settings');
+add_action('admin_init', 'DebugLogReader\elr_register_chatgpt_settings');
 
 // Add the ChatGPT settings submenu page
 function elr_chatgpt_settings_page() {
