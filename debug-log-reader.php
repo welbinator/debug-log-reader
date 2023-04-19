@@ -43,7 +43,8 @@ function elr_enqueue_scripts($hook) {
 }
 add_action('admin_enqueue_scripts', 'elr_enqueue_scripts');
 
-
+// Add the admin_menu action with the correct namespace for the elr_admin_menu() function
+add_action('admin_menu', 'DebugLogReader\elr_admin_menu'); // Update this line
 
 // simulate bad code to generate error in logs
 function elr_trigger_error_log() {
@@ -56,8 +57,3 @@ function elr_trigger_error_log() {
     }
 }
 // add_action('init', 'elr_trigger_error_log');
-
-
-
-
-
