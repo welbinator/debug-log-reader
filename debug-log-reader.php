@@ -7,8 +7,10 @@ Author: Your Name
 Author URI: https://yourwebsite.com
 */
 
-require_once plugin_dir_path(__FILE__) . 'includes/load.php';
-require_once __DIR__ . '/vendor/autoload.php';
+require_once plugin_dir_path(__FILE__) . '/includes/admin-menu.php';
+require_once plugin_dir_path(__FILE__) . '/includes/ajax-handlers.php';
+require_once plugin_dir_path(__FILE__) . '/includes/chatgpt.php';
+require_once plugin_dir_path(__FILE__) . '/vendor/autoload.php';
 
 use GuzzleHttp\Client;
 
