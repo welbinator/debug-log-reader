@@ -19,7 +19,7 @@ function elr_chatgpt_settings_page() {
         'ChatGPT Settings',           // Menu title
         'manage_options',             // Capability
         'chatgpt-settings',           // Menu slug
-        'elr_display_chatgpt_settings' // Callback function
+        'DebugLogReader\elr_display_chatgpt_settings' // Callback function
     );
 }
 add_action('admin_menu', 'elr_chatgpt_settings_page');
