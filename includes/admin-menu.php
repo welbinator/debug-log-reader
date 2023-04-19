@@ -1,5 +1,5 @@
 <?php
-namespace DebugLogReader;
+
 
 function elr_read_debug_log() {
     $debug_log_path = ABSPATH . 'wp-content/debug.log'; // Set the path to your debug.log file
