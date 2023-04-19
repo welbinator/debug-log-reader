@@ -14,7 +14,7 @@ function elr_ajax_clear_debug_log() {
         wp_send_json_error();
     }
 }
-add_action('wp_ajax_elr_clear_debug_log', 'elr_ajax_clear_debug_log');
+add_action('wp_ajax_elr_clear_debug_log', 'DebugLogReader\elr_ajax_clear_debug_log');
 
 // Send a request to ChatGPT via AJAX
 function elr_send_to_chatgpt() {
@@ -35,4 +35,4 @@ function elr_send_to_chatgpt() {
     }
     
 }
-add_action('wp_ajax_elr_send_to_chatgpt', 'elr_send_to_chatgpt');
+add_action('wp_ajax_elr_send_to_chatgpt', 'DebugLogReader\elr_send_to_chatgpt');
