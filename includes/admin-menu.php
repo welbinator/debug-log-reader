@@ -18,7 +18,7 @@ function elr_admin_menu() {
         'Debug Log Reader',
         'manage_options',
         'debug-log-reader',
-        'elr_display_debug_log',
+        'DebugLogReader\elr_display_debug_log',
         'dashicons-format-status', // Icon for the menu item
         100 // Position of the menu item, 100 is placed towards the bottom
     );
