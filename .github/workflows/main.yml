@@ -27,7 +27,20 @@ jobs:
         run: |
           composer install --no-dev --optimize-autoloader
           mkdir build
-      - name: Create Zip and Upload to Release
+      - name: Create Zip
+        run: |
+          zip -r build/debug-log-reader.zip . \
+          -x ".*" \
+          -x "*/\.*" \
+          -x "*.dist" \
+          -x "composer.*" \
+          -x "build/**" \
+          -x "dev-helpers/**" \
+          -x "CODE_OF_CONDUCT.md" \
+          -x "CONTRIBUTING.md" \
+          -x "ISSUE_TEMPLATE.md" \
+          -x "PULL_REQUEST_TEMPLATE.md"
+      - name: Upload to Release
         uses: svenstaro/upload-release-action@v2
         with:
           file: build/debug-log-reader.zip
@@ -35,15 +48,3 @@ jobs:
           asset_name: debug-log-reader.zip
           tag: ${{ github.ref }}
           overwrite: true
-          run: |
-            zip -r build/debug-log-reader.zip . \
-            -x ".*" \
-            -x "*/\.*" \
-            -x "*.dist" \
-            -x "composer.*" \
-            -x "build/**" \
-            -x "dev-helpers/**" \
-            -x "CODE_OF_CONDUCT.md" \
-            -x "CONTRIBUTING.md" \
-            -x "ISSUE_TEMPLATE.md" \
-            -x "PULL_REQUEST_TEMPLATE.md"
