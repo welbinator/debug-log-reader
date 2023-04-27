@@ -27,18 +27,23 @@ jobs:
         run: |
           composer install --no-dev --optimize-autoloader
           mkdir build
-      - name: Create artifact
-        uses: montudor/action-zip@v0.1.0
+      - name: Create Zip and Upload to Release
+        uses: svenstaro/upload-release-action@v2
         with:
-          args: zip -X -r build/debug-log-reader.zip . -x *.git* node_modules/\* .* "*/\.*" CODE_OF_CONDUCT.md CONTRIBUTING.md ISSUE_TEMPLATE.md PULL_REQUEST_TEMPLATE.md *.dist composer.* dev-helpers** build**
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-            name: debug-log-reader
-            path: build/debug-log-reader.zip
-      - name: Upload to release
-        uses: JasonEtco/upload-to-release@master
-        with:
-          args: build/debug-log-reader.zip application/zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          file: build/debug-log-reader.zip
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          asset_name: debug-log-reader.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+          run: |
+            zip -r build/debug-log-reader.zip . \
+            -x ".*" \
+            -x "*/\.*" \
+            -x "*.dist" \
+            -x "composer.*" \
+            -x "build/**" \
+            -x "dev-helpers/**" \
+            -x "CODE_OF_CONDUCT.md" \
+            -x "CONTRIBUTING.md" \
+            -x "ISSUE_TEMPLATE.md" \
+            -x "PULL_REQUEST_TEMPLATE.md"
