@@ -44,7 +44,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           file: build/debug-log-reader.zip
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_PAT }}
           asset_name: debug-log-reader.zip
           tag: ${{ github.ref }}
           overwrite: true
