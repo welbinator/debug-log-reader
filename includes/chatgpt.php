@@ -28,7 +28,7 @@ add_action('admin_menu', 'DebugLogReader\elr_chatgpt_settings_page');
 function elr_display_chatgpt_settings() {
     ?>
     <div class="wrap">
-        <h1>ChatGPT Settings</h1>
+        <h1>ChatGPT Settings Yo</h1>
         <form method="post" action="options.php">
             <?php
             settings_fields('elr_chatgpt_options_group');
