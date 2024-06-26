@@ -3,7 +3,7 @@
 Plugin Name: Debug Log Reader
 Description: A simple plugin to display the contents of the debug.log file in the WordPress admin area.
 Version: 1.0
-Author: Your Name
+Author: James Welbes
 Author URI: https://yourwebsite.com
 */
 
